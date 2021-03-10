@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
-//import SearchBar from "material-ui-search-bar";
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   navbar: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   }
 });
 
-const SearchBar = ({ handleSubmit }) => {
+export const SearchBar = ({ handleSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const classes = useStyles();
@@ -45,9 +45,9 @@ const SearchBar = ({ handleSubmit }) => {
   );
 };
 
-export default SearchBar;
-
-
+SearchBar.propTypes = {
+  handleSubmit: PropTypes.func
+};
 
 
 

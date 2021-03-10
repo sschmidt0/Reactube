@@ -1,7 +1,7 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import youtube from './apis/youtube';
-import SearchBar from './components/SearchBar';
+import { SearchBar } from './components/SearchBar';
 import { VideoList } from './components/VideoList';
 import { VideoDetail } from './components/VideoDetail';
 
@@ -10,6 +10,7 @@ import { Container } from '@material-ui/core';
 export const App = () => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [detailedVideo, setDetailedVideo] = useState(null);
 
   const handleSubmit = async (e, termFromSearchBar) => {
     e.preventDefault();
@@ -26,12 +27,17 @@ export const App = () => {
     // console.log('fetch request response: ', response.data.items);
   };
 
-  const handleVideoSelect = (video) => {
+  const handleVideoSelect = async (video) => {
     // s'executarà quan se seleccioni un vídeo del llistat
     // El únic del que s'encarregarà és modificar l'estat
-    setSelectedVideo(video);
-    console.log('video selected');
+    console.log('video input ', video);
+    await setSelectedVideo(video);
+    console.log('selected video: ', selectedVideo);
   };
+
+  useEffect(() => {
+    if (videos.length > 0) setDetailedVideo(videos[0]);
+  }, [videos]);
 
   return (
     <Container
@@ -44,7 +50,7 @@ export const App = () => {
         maxWidth="md"
         style={{ display: 'flex', padding: 0, }}
       >
-        <VideoDetail selectedVideo={ selectedVideo === null ? videos[0] : selectedVideo } />
+        <VideoDetail selectedVideo={ selectedVideo } video={ detailedVideo } />
         <VideoList
           videos={ videos }
           handleVideoSelect={ handleVideoSelect }
