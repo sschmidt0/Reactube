@@ -11,7 +11,8 @@ export const App = () => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  const handleSubmit = async (termFromSearchBar) => {
+  const handleSubmit = async (e, termFromSearchBar) => {
+    e.preventDefault();
     // mètode que s'executarà quan es realitzi una cerca, el qual acceptarà un string
     // El contingut d'aquest mètode és l'anomenada a la API de youtube i el seu guardat posterior en el state
 
@@ -21,15 +22,9 @@ export const App = () => {
       }
     });
 
-    // console.log(response.data.items);
-    setVideos(response.data.items);
-    console.log(videos);
+    await setVideos(response.data.items);
+    console.log('fetch request response: ', response.data.items);
   };
-
-  // prova
-  // const swimming = handleSubmit('swimming');
-  // console.log(swimming);
-
 
   const handleVideoSelect = (video) => {
     // s'executarà quan se seleccioni un vídeo del llistat
@@ -41,7 +36,7 @@ export const App = () => {
   return (
     <Container
       maxWidth="md"
-      style={{ padding: 0 }}
+      style={{ padding: 5 }}
     >
       <SearchBar handleSubmit={ handleSubmit } />
       <Container
