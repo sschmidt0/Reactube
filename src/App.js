@@ -23,7 +23,7 @@ export const App = () => {
     });
 
     await setVideos(response.data.items);
-    console.log('fetch request response: ', response.data.items);
+    // console.log('fetch request response: ', response.data.items);
   };
 
   const handleVideoSelect = (video) => {
