@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   videoListContainer: {
-    width: 350
+    width: 360
   },
 });
 
