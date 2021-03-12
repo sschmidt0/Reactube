@@ -4,16 +4,19 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   videoListContainer: {
-    width: 360
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
   },
 });
 
 export const VideoList = ({ videos, handleVideoSelect }) => {
   const classes = useStyles();
 
-  console.log('from Video list: ', videos);
+  //console.log('from Video list: ', videos);
 
-  const renderedVideos = videos.map((video, key) =>
+  const renderedVideos = videos.slice(0, 5).map((video, key) =>
     <VideoItem
       key={ key }
       handleVideoSelect={ handleVideoSelect }
@@ -21,9 +24,9 @@ export const VideoList = ({ videos, handleVideoSelect }) => {
     />);
 
   return (
-    <aside className={ classes.videoListContainer }>
+    <section className={ classes.videoListContainer }>
       { renderedVideos }
-    </aside>
+    </section>
   )
 };
 

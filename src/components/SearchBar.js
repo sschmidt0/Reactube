@@ -1,46 +1,87 @@
 import { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { makeStyles, fade } from '@material-ui/core/styles';
+import { AppBar, Toolbar, InputBase } from '@material-ui/core/';
 import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles({
-  navbar: {
-    marginBottom: 20,
-    padding: 20,
-    border: '2px solid lightgrey'
+const useStyles = makeStyles((theme) => ({
+  navBox: {
+    backgroundColor: '#000014'
   },
-  navbarSearch: {
-    display: 'flex'
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
   },
   searchIcon: {
-    alignSelf: 'end'
-  }
-});
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
+
+
 
 export const SearchBar = ({ handleSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
-
   const classes = useStyles();
 
   const handleChange = (e) => setSearchTerm(e.target.value);
 
   return (
     <nav className={ classes.navbar }>
-      <form
-        onSubmit={ (e) => handleSubmit(e, searchTerm) }
-        className={ classes.navbarSearch }
-      >
-        <SearchIcon className={ classes.searchIcon } />
-        <TextField
-          id="standard-search"
-          label="Video Search"
-          type="search"
-          onChange={ (e) => handleChange(e) }
-          value={ searchTerm }
-          name="search"
-        />
-      </form>
+      <AppBar position="static">
+        <Toolbar className={ classes.navBox }>
+          <form
+            onSubmit={ (e) => handleSubmit(e, searchTerm) }
+            className={ classes.navbarSearch }
+          >
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Video Search"
+                onChange={ (e) => handleChange(e) }
+                value={ searchTerm }
+                name="search"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </div>
+          </form>
+        </Toolbar>
+      </AppBar>
     </nav>
   );
 };
@@ -48,6 +89,3 @@ export const SearchBar = ({ handleSubmit }) => {
 SearchBar.propTypes = {
   handleSubmit: PropTypes.func
 };
-
-
-
