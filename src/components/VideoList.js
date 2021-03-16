@@ -11,15 +11,13 @@ const useStyles = makeStyles({
   },
 });
 
-export const VideoList = ({ videos, handleVideoSelect }) => {
+export const VideoList = ({ handleVideoSelect, videos }) => {
   const classes = useStyles();
-
-  //console.log('from Video list: ', videos);
 
   const renderedVideos = videos.slice(0, 5).map((video, key) =>
     <VideoItem
       key={ key }
-      handleVideoSelect={ handleVideoSelect }
+      handleVideoSelect={ () => handleVideoSelect(video) }
       video = { video }
     />);
 
@@ -31,6 +29,6 @@ export const VideoList = ({ videos, handleVideoSelect }) => {
 };
 
 VideoList.propTypes = {
-  videos: PropTypes.array,
+  //videos: PropTypes.array,
   handleVideoSelect: PropTypes.func
 };

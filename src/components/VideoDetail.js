@@ -1,7 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { VideoList } from './VideoList';
-import { useState, useEffect } from 'react';
+import { DetailSelectedVideo } from './DetailSelectedVideo';
+import { VideoContext } from './VideoContext';
+import { useContext } from 'react';
 
 const useStyles = makeStyles({
   videoDetailContainer: {
@@ -29,32 +31,18 @@ const useStyles = makeStyles({
   }
 });
 
-export const VideoDetail = ({ selectedVideo, video, handleVideoSelect, relatedVideos }) => {
+export const VideoDetail = ({ handleVideoSelect }) => {
+  const { videos, selectedVideo, relatedVideos } = useContext(VideoContext);
+  const video = videos[0];
   const classes = useStyles();
-  //console.log('selected video from video detail: ', selectedVideo);
-  //console.log('video from video detail: ', video);
-  //console.log('video id: ', video.id.videoId);
 
   return (
     <section className={ classes.videoDetailContainer }>
-      { selectedVideo && <article className={ classes.article }>
+      <DetailSelectedVideo />
+      {/* { !selectedVideo && video && <article className={ classes.article }>
           <div className={ classes.imageContainer }>
             <img
-              src={ selectedVideo.snippet.thumbnails.high.url }
-              alt={ selectedVideo.snippet.description }
-              className={ classes.videoDetailImage }
-            />
-          </div>
-          <div className={ classes.videoInformation }>
-            <h2 className={ classes.videoTitle }>{ selectedVideo.snippet.title }</h2>
-            <p>{ selectedVideo.snippet.description }</p>
-          </div>
-        </article>
-      }
-      { !selectedVideo && video && <article className={ classes.article }>
-          <div className={ classes.imageContainer }>
-            <img
-              src={ video.snippet.thumbnails.medium.url }
+              src={ video.snippet.thumbnails.high.url }
               alt={ video.snippet.description }
               className={ classes.videoDetailImage }
             />
@@ -64,16 +52,16 @@ export const VideoDetail = ({ selectedVideo, video, handleVideoSelect, relatedVi
             <p>{ video.snippet.description }</p>
           </div>
         </article>
-      }
+      } */}
       <article>
         <h3>Related Videos</h3>
-        <VideoList videos={ relatedVideos } handleVideoSelect={ handleVideoSelect } />
+        <VideoList videos={ relatedVideos } handleVideoSelect={ (e) => handleVideoSelect(video) } />
       </article>
     </section>
   )
 };
 
 VideoDetail.propTypes = {
-  selectedVideo: PropTypes.object,
-  video: PropTypes.object
+  //selectedVideo: PropTypes.object,
+  //video: PropTypes.object
 };

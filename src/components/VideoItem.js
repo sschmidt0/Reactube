@@ -11,6 +11,7 @@ const useStyles = makeStyles({
   root: {
     maxWidth: 210,
     marginRight: 20,
+    marginBottom: 20,
   },
   videoItemContainer: {
     display: 'flex',
@@ -34,7 +35,8 @@ export const VideoItem = ({ handleVideoSelect, video }) => {
   const classes = useStyles();
   const path = `/videos/${video.id.videoId}`;
 
-  const handleFavoriteIcon = () => {
+  const handleFavoriteIcon = (e) => {
+    e.preventDefault();
     setFavorite(!favorite);
   }
 
@@ -42,9 +44,9 @@ export const VideoItem = ({ handleVideoSelect, video }) => {
     <Link to={ path }>
       <div
         className={ classes.videoItemContainer }
-        onClick={ () => handleVideoSelect(video) }
+        onClick={ (e) => handleVideoSelect(e.target) }
       >
-        <Card className={classes.root}>
+        <Card className={ classes.root }>
           <CardActionArea>
             <CardMedia
               component="img"
@@ -63,8 +65,8 @@ export const VideoItem = ({ handleVideoSelect, video }) => {
                 </Typography>
                 {
                   favorite ?
-                  <FavoriteIcon color="secondary" onClick={ () => handleFavoriteIcon() } /> :
-                  <FavoriteBorderIcon color="secondary" onClick={ () => handleFavoriteIcon() } />
+                  <FavoriteIcon color="secondary" onClick={ (e) => handleFavoriteIcon(e) } /> :
+                  <FavoriteBorderIcon color="secondary" onClick={ (e) => handleFavoriteIcon(e) } />
                 }
               </div>
             </CardContent>
@@ -76,6 +78,6 @@ export const VideoItem = ({ handleVideoSelect, video }) => {
 };
 
 VideoItem.propTypes = {
-  video: PropTypes.object,
+  //video: PropTypes.object,
   handleVideoSelect: PropTypes.func
 };

@@ -1,29 +1,20 @@
 import './App.css';
-import { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-
 import youtube from './apis/youtube';
 import youtubeRelatedVideos from './apis/youtubeRelatedVideos';
-
 import { SearchBar } from './components/SearchBar';
 import { VideoList } from './components/VideoList';
 import { VideoDetail } from './components/VideoDetail';
-
 import { Container } from '@material-ui/core';
-
+import { VideoContext } from './components/VideoContext';
+import { useContext } from 'react';
 
 const history = createBrowserHistory();
 
 export const App = () => {
-  const [videos, setVideos] = useState([]);
-  const [selectedVideo, setSelectedVideo] = useState(null);
-  const [detailedVideo, setDetailedVideo] = useState(null);
-  const [relatedVideos, setRelatedVideos] = useState([]);
+  const { videos, setVideos, selectedVideo, setSelectedVideo, setRelatedVideos, detailedVideo, setDetailedVideo } = useContext(VideoContext);
 
   const handleSubmit = async (e, termFromSearchBar) => {
     e.preventDefault();
@@ -36,10 +27,12 @@ export const App = () => {
       }
     });
 
+    //await setState({ ...state, videos: response.data.items });
     await setVideos(response.data.items);
   };
 
   const handleVideoSelect = async (video) => {
+    console.log('from handleVideoSelect ', video);
     // s'executarà quan se seleccioni un vídeo del llistat
     // El únic del que s'encarregarà és modificar l'estat
     await setSelectedVideo(video);
@@ -49,13 +42,13 @@ export const App = () => {
         relatedToVideoId: video.id.videoId,
       }
     });
-    console.log('response data items: ', response.data.items);
-    setRelatedVideos(response.data.items);
+    //console.log('response data items: ', response.data.items);
+    await setRelatedVideos(response.data.items);
   };
 
   useEffect(() => {
-    if (videos.length > 0) setDetailedVideo(videos[0]);
-  }, [videos]);
+    if (videos.length < 0) setDetailedVideo(videos[0]);
+  }, []);
 
   return (
     <Container
@@ -70,17 +63,21 @@ export const App = () => {
       >
         <Router history={ history }>
           <Switch>
-            <Route exact path="/" render={() => <VideoList
-              videos={ videos }
+            {/* { videos.length > 0 && <Route exact path="/" render={() => <VideoList
               handleVideoSelect={ handleVideoSelect }
+            /> } /> } */}
+            <Route exact path="/" render={() => <VideoList
+              handleVideoSelect={ handleVideoSelect }
+              videos={ videos }
             /> } />
             <Route path="/videos/:id" render={() => <VideoDetail
-              selectedVideo={ selectedVideo }
-              video={ detailedVideo }
-              relatedVideos={ relatedVideos }
+              handleVideoSelect={ handleVideoSelect }
+              // selectedVideo={ selectedVideo }
+              // video={ detailedVideo }
+              // relatedVideos={ relatedVideos }
             /> } />
           </Switch>
-      </Router>
+        </Router>
       </Container>
     </Container>
   );
