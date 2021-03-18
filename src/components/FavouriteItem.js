@@ -13,8 +13,9 @@ const useStyles = makeStyles({
   },
   favouriteImageContainer: {
     gridColumn: '1/-1',
-    maxWidth: 210,
     gridRow: '1/span 1',
+    maxWidth: 190,
+    marginBottom: 20,
     cursor: 'pointer',
   },
   favouriteIconContainer: {
@@ -30,8 +31,9 @@ const useStyles = makeStyles({
   },
   favouriteImage: {
     width: '100%',
-    objectFit: 'contain'
-  }
+    objectFit: 'contain',
+    borderRadius: 5,
+  },
 });
 
 export const FavouriteItem = ({ handleVideoSelect, video }) => {

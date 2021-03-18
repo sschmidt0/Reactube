@@ -8,7 +8,7 @@ const useStyles = makeStyles({
   favouriteVideoListContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    //justifyContent: 'space-between',
     alignItems: 'stretch',
   },
 });

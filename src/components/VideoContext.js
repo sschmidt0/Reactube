@@ -10,17 +10,20 @@ export const VideoProvider = props => {
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [favouriteVideos, setFavouriteVideos] = useState([]);
   const [favoriteVideoItem, setFavoriteVideoItem] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
-    const localData = localStorage.getItem('favouriteVideos');
-    console.log('locaData: ', localData);
-    const favourites = localData.length !== undefined ? JSON.parse(localData) : [];
+    const localFavourites = localStorage.getItem('favouriteVideos');
+    const favourites = localFavourites.length > 0 ? JSON.parse(localFavourites) : [];
     setFavouriteVideos(favourites);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('favouriteVideos', JSON.stringify(favouriteVideos));
-  }, [favouriteVideos]);
+    const localSearch = localStorage.getItem('searchHistory');
+    const search = localSearch.length > 0 ? JSON.parse(localSearch) : [];
+    setSearchHistory(search);
+  }, []);
 
   return (
     <VideoContext.Provider value={{
@@ -35,7 +38,11 @@ export const VideoProvider = props => {
       favouriteVideos,
       setFavouriteVideos,
       favoriteVideoItem,
-      setFavoriteVideoItem
+      setFavoriteVideoItem,
+      searchTerm,
+      setSearchTerm,
+      searchHistory,
+      setSearchHistory
     }}>
       { props.children }
     </VideoContext.Provider>

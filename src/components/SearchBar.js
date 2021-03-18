@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import { AppBar, Toolbar, InputBase } from '@material-ui/core/';
 import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
+import { VideoContext } from './VideoContext';
 
 const useStyles = makeStyles((theme) => ({
   navBox: {
     backgroundColor: '#000014',
-    marginLeft: -60,
+    marginLeft: -30,
   },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    //backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const SearchBar = ({ handleSubmit }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const { searchTerm, setSearchTerm } = useContext(VideoContext);
   const classes = useStyles();
 
   const handleChange = (e) => setSearchTerm(e.target.value);

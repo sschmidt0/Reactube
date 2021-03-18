@@ -15,12 +15,10 @@ import { ComponentPrincipal } from './components/ComponentPrincipal';
 const history = createBrowserHistory();
 
 export const App = () => {
-  const { videos, setVideos, selectedVideo, setSelectedVideo, setRelatedVideos, detailedVideo, setDetailedVideo } = useContext(VideoContext);
+  const { videos, setVideos, setSelectedVideo, setRelatedVideos, searchHistory, setSearchHistory } = useContext(VideoContext);
 
   const handleSubmit = async (e, termFromSearchBar) => {
     e.preventDefault();
-    // mètode que s'executarà quan es realitzi una cerca, el qual acceptarà un string
-    // El contingut d'aquest mètode és l'anomenada a la API de youtube i el seu guardat posterior en el state
 
     const response = await youtube.get('/search', {
       params: {
@@ -28,14 +26,21 @@ export const App = () => {
       }
     });
 
-    //await setState({ ...state, videos: response.data.items });
     await setVideos(response.data.items);
+    const firstVideoImgSrc = response.data.items[0].snippet.thumbnails.medium.url;
+    const searchHistoryItem = {
+      firstVideoImgSrc,
+      searchTerm: termFromSearchBar,
+      searchDate: Date.now(),
+      searchVideos: videos
+    };
+    console.log('searchHistoryItem: ', searchHistoryItem);
+    setSearchHistory([...searchHistory, searchHistoryItem]);
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
   };
 
   const handleVideoSelect = async (video) => {
     console.log('from handleVideoSelect ', video);
-    // s'executarà quan se seleccioni un vídeo del llistat
-    // El únic del que s'encarregarà és modificar l'estat
     await setSelectedVideo(video);
 
     const response = await youtubeRelatedVideos.get('/search', {
@@ -43,13 +48,8 @@ export const App = () => {
         relatedToVideoId: video.id.videoId,
       }
     });
-    //console.log('response data items: ', response.data.items);
     await setRelatedVideos(response.data.items);
   };
-
-  // useEffect(() => {
-  //   if (videos.length < 0) setDetailedVideo(videos[0]);
-  // }, []);
 
   useEffect(() => {
     const getRecommendedVideos = async () => {
@@ -78,9 +78,6 @@ export const App = () => {
             /> } />
             <Route path="/videos/:id" render={() => <VideoDetail
               handleVideoSelect={ handleVideoSelect }
-              // selectedVideo={ selectedVideo }
-              // video={ detailedVideo }
-              // relatedVideos={ relatedVideos }
             /> } />
           </Switch>
         </Router>
