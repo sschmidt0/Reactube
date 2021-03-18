@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Link from './styled/Link';
+import { VideoContext } from './VideoContext';
+import { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -32,13 +34,25 @@ const useStyles = makeStyles({
 
 export const VideoItem = ({ handleVideoSelect, video }) => {
   const [favorite, setFavorite] = useState(false);
+  const { favouriteVideos, setFavouriteVideos } = useContext(VideoContext);
   const classes = useStyles();
   const path = `/videos/${video.id.videoId}`;
 
   const handleFavoriteIcon = (e) => {
     e.preventDefault();
     setFavorite(!favorite);
-  }
+  //   if (favorite) {
+  //     setFavouriteVideos([...favouriteVideos, video]);
+  // } else {
+  //   const index = favouriteVideos.findIndex(el => el.id.VideoId === video.id.VideoId);
+  //   console.log('index: ', index);
+  //   console.log(favouriteVideos.length);
+  //   favouriteVideos.splice(index, 1);
+  //   console.log(favouriteVideos.length);
+  // }
+  setFavouriteVideos([...favouriteVideos, video]);
+  localStorage.setItem('favouriteVideos', JSON.stringify(favouriteVideos));
+  };
 
   return (
     <Link to={ path }>

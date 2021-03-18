@@ -54,8 +54,7 @@ export const VideoDetail = ({ handleVideoSelect }) => {
         </article>
       } */}
       <article>
-        <h3>Related Videos</h3>
-        <VideoList videos={ relatedVideos } handleVideoSelect={ (e) => handleVideoSelect(video) } />
+        <VideoList title="Related Videos" videos={ relatedVideos } handleVideoSelect={ (e) => handleVideoSelect(video) } />
       </article>
     </section>
   )

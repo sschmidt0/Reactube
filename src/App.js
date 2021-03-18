@@ -4,12 +4,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import youtube from './apis/youtube';
 import youtubeRelatedVideos from './apis/youtubeRelatedVideos';
+import youtubeRecommendedVideos from './apis/youtubeRecommendedVideos';
 import { SearchBar } from './components/SearchBar';
-import { VideoList } from './components/VideoList';
 import { VideoDetail } from './components/VideoDetail';
 import { Container } from '@material-ui/core';
 import { VideoContext } from './components/VideoContext';
 import { useContext } from 'react';
+import { ComponentPrincipal } from './components/ComponentPrincipal';
 
 const history = createBrowserHistory();
 
@@ -46,8 +47,16 @@ export const App = () => {
     await setRelatedVideos(response.data.items);
   };
 
+  // useEffect(() => {
+  //   if (videos.length < 0) setDetailedVideo(videos[0]);
+  // }, []);
+
   useEffect(() => {
-    if (videos.length < 0) setDetailedVideo(videos[0]);
+    const getRecommendedVideos = async () => {
+      const response = await youtubeRecommendedVideos.get('/search');
+      await setVideos(response.data.items);
+    };
+    getRecommendedVideos();
   }, []);
 
   return (
@@ -63,10 +72,7 @@ export const App = () => {
       >
         <Router history={ history }>
           <Switch>
-            {/* { videos.length > 0 && <Route exact path="/" render={() => <VideoList
-              handleVideoSelect={ handleVideoSelect }
-            /> } /> } */}
-            <Route exact path="/" render={() => <VideoList
+            <Route exact path="/" render={() => <ComponentPrincipal
               handleVideoSelect={ handleVideoSelect }
               videos={ videos }
             /> } />

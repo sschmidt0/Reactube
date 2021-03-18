@@ -11,10 +11,10 @@ const useStyles = makeStyles({
   },
 });
 
-export const VideoList = ({ handleVideoSelect, videos }) => {
+export const VideoList = ({ handleVideoSelect, videos, title, sliceVal }) => {
   const classes = useStyles();
 
-  const renderedVideos = videos.slice(0, 5).map((video, key) =>
+  const renderedVideos = videos.slice(0, sliceVal).map((video, key) =>
     <VideoItem
       key={ key }
       handleVideoSelect={ () => handleVideoSelect(video) }
@@ -22,8 +22,11 @@ export const VideoList = ({ handleVideoSelect, videos }) => {
     />);
 
   return (
-    <section className={ classes.videoListContainer }>
-      { renderedVideos }
+    <section>
+      <h3>{ title }</h3>
+      <div className={ classes.videoListContainer }>
+        { renderedVideos }
+      </div>
     </section>
   )
 };

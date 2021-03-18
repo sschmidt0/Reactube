@@ -6,12 +6,13 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   navBox: {
-    backgroundColor: '#000014'
+    backgroundColor: '#000014',
+    marginLeft: -60,
   },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    //backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    color: '#909099',
   },
   inputRoot: {
     color: 'inherit',
@@ -63,12 +65,12 @@ export const SearchBar = ({ handleSubmit }) => {
             onSubmit={ (e) => handleSubmit(e, searchTerm) }
             className={ classes.navbarSearch }
           >
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
+            <div className={ classes.search }>
+              <div className={ classes.searchIcon }>
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Video Search"
+                placeholder="Search..."
                 onChange={ (e) => handleChange(e) }
                 value={ searchTerm }
                 name="search"
