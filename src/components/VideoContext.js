@@ -42,7 +42,7 @@ export const VideoProvider = props => {
       searchTerm,
       setSearchTerm,
       searchHistory,
-      setSearchHistory
+      setSearchHistory,
     }}>
       { props.children }
     </VideoContext.Provider>

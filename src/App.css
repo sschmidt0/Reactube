@@ -3,30 +3,3 @@ body {
   background-color: #000014;
   color: #DEE4E7;
 }
-
-/* styles do not work */
-/* .container-flexbox {
-  display: flex;
-  padding: 0;
-}
-
-.videoDetailContainer {
-  width: 100%;
-}
-
-.videoListContainer {
-  width: 100%;
-}
-
-@media (max-width: 480px) {
-  .container-flexbox {
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .videoDetailContainer {
-    width: 68% !important;
-  }
-  .videoListContainer {
-    width: 250px !important;
-  }
-} */

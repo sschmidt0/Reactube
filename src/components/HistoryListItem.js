@@ -53,6 +53,7 @@ export const HistoryListItem = ({ image, term, date, videos }) => {
         <span className={ classes.historyDate }>{ date }</span>
       </div>
       <Button
+        size="small"
         variant="contained"
         color="secondary"
         onClick={ () => handleClick() }

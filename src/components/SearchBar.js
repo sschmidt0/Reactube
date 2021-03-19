@@ -1,14 +1,13 @@
 import { useContext } from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
-import { AppBar, Toolbar, InputBase } from '@material-ui/core/';
-import SearchIcon from '@material-ui/icons/Search';
+import { InputBase } from '@material-ui/core/';
+import { Search } from '@material-ui/icons/';
 import PropTypes from 'prop-types';
 import { VideoContext } from './VideoContext';
 
 const useStyles = makeStyles((theme) => ({
   navBox: {
     backgroundColor: '#000014',
-    marginLeft: -30,
   },
   search: {
     position: 'relative',
@@ -49,8 +48,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 export const SearchBar = ({ handleSubmit }) => {
   const { searchTerm, setSearchTerm } = useContext(VideoContext);
   const classes = useStyles();
@@ -58,33 +55,27 @@ export const SearchBar = ({ handleSubmit }) => {
   const handleChange = (e) => setSearchTerm(e.target.value);
 
   return (
-    <nav className={ classes.navbar }>
-      <AppBar position="static">
-        <Toolbar className={ classes.navBox }>
-          <form
-            onSubmit={ (e) => handleSubmit(e, searchTerm) }
-            className={ classes.navbarSearch }
-          >
-            <div className={ classes.search }>
-              <div className={ classes.searchIcon }>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search..."
-                onChange={ (e) => handleChange(e) }
-                value={ searchTerm }
-                name="search"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
-          </form>
-        </Toolbar>
-      </AppBar>
-    </nav>
+    <form
+      onSubmit={ (e) => handleSubmit(e, searchTerm) }
+      className={ classes.navbarSearch }
+    >
+      <div className={ classes.search }>
+        <div className={ classes.searchIcon }>
+          <Search />
+        </div>
+        <InputBase
+          placeholder="Search..."
+          onChange={ (e) => handleChange(e) }
+          value={ searchTerm }
+          name="search"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </div>
+    </form>
   );
 };
 

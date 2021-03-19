@@ -5,17 +5,30 @@ import { createBrowserHistory } from 'history';
 import youtube from './apis/youtube';
 import youtubeRelatedVideos from './apis/youtubeRelatedVideos';
 import youtubeRecommendedVideos from './apis/youtubeRecommendedVideos';
-import { SearchBar } from './components/SearchBar';
 import { VideoDetail } from './components/VideoDetail';
 import { Container } from '@material-ui/core';
 import { VideoContext } from './components/VideoContext';
 import { useContext } from 'react';
 import { ComponentPrincipal } from './components/ComponentPrincipal';
+import { VideoList } from './components/VideoList';
+import ResponsiveDrawer from './components/ResponsiveDrawer';
+import { makeStyles } from '@material-ui/core/styles';
 
 const history = createBrowserHistory();
 
+const useStyles = makeStyles({
+  appContainer: {
+    display: 'flex',
+    flexWrap: 'no-wrap',
+    //padding: 5,
+    backgroundColor: '#000014',
+    color: '#DEE4E7',
+  }
+});
+
 export const App = () => {
-  const { videos, setVideos, setSelectedVideo, setRelatedVideos, searchHistory, setSearchHistory } = useContext(VideoContext);
+  const { videos, setVideos, setSelectedVideo, setRelatedVideos, searchHistory, setSearchHistory, favouriteVideos } = useContext(VideoContext);
+  const classes = useStyles();
 
   const handleSubmit = async (e, termFromSearchBar) => {
     e.preventDefault();
@@ -60,28 +73,38 @@ export const App = () => {
   }, []);
 
   return (
-    <Container
-      maxWidth="lg"
-      style={{ padding: 5 }}
-    >
-      <SearchBar handleSubmit={ handleSubmit } />
+    <Router history={ history }>
       <Container
-        className="container-flexbox"
         maxWidth="lg"
-        style={{ display: 'flex', padding: 0, }}
+        className={ classes.appContainer }
       >
-        <Router history={ history }>
-          <Switch>
-            <Route exact path="/" render={() => <ComponentPrincipal
-              handleVideoSelect={ handleVideoSelect }
-              videos={ videos }
-            /> } />
-            <Route path="/videos/:id" render={() => <VideoDetail
-              handleVideoSelect={ handleVideoSelect }
-            /> } />
-          </Switch>
-        </Router>
+        <ResponsiveDrawer>
+          <div style={{ display: 'flex', padding: 0 }} >
+            <Switch>
+              <Route exact path="/" render={() => <ComponentPrincipal
+                handleVideoSelect={ handleVideoSelect }
+                handleSubmit={ handleSubmit }
+                videos={ videos }
+              /> } />
+              <Route exact path="/history" render={() => <VideoList
+                title="Historial de videos"
+                handleVideoSelect={ handleVideoSelect }
+                videos={ videos }
+                sliceVal="25"
+              /> } />
+              <Route exact path="/favourites" render={() => <VideoList
+                title="Videos favoritos"
+                handleVideoSelect={ handleVideoSelect }
+                videos={ favouriteVideos }
+                sliceVal="25"
+              /> } />
+              <Route path="/videos/:id" render={() => <VideoDetail
+                handleVideoSelect={ handleVideoSelect }
+              /> } />
+            </Switch>
+          </div>
+        </ResponsiveDrawer>
       </Container>
-    </Container>
+    </Router>
   );
 };
