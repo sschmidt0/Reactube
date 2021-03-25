@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export const VideoContext = createContext();
 VideoContext.displayName = 'VideoContext';
@@ -8,22 +9,17 @@ export const VideoProvider = props => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [detailedVideo, setDetailedVideo] = useState(null);
   const [relatedVideos, setRelatedVideos] = useState([]);
-  const [favouriteVideos, setFavouriteVideos] = useState([]);
   const [favoriteVideoItem, setFavoriteVideoItem] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchHistory, setSearchHistory] = useState([]);
+  const [searchHistory, setSearchHistory] = useLocalStorage('searchHistory', []);
 
-  useEffect(() => {
-    const localFavourites = localStorage.getItem('favouriteVideos');
-    const favourites = localFavourites.length > 0 ? JSON.parse(localFavourites) : [];
-    setFavouriteVideos(favourites);
-  }, []);
+  const favVideos = localStorage.getItem('favouriteVideos');
+  const startFav = favVideos ? JSON.parse(favVideos) : [];
+  const [favouriteVideos, setFavouriteVideos] = useState(startFav);
 
-  useEffect(() => {
-    const localSearch = localStorage.getItem('searchHistory');
-    const search = localSearch.length > 0 ? JSON.parse(localSearch) : [];
-    setSearchHistory(search);
-  }, []);
+  const historyVStorage = localStorage.getItem('historyVideos');
+  const startHV = historyVStorage ? JSON.parse(historyVStorage) : [];
+  const [historyVideos, setHistoryVideos] = useState(startHV);
 
   return (
     <VideoContext.Provider value={{
@@ -43,6 +39,8 @@ export const VideoProvider = props => {
       setSearchTerm,
       searchHistory,
       setSearchHistory,
+      historyVideos,
+      setHistoryVideos
     }}>
       { props.children }
     </VideoContext.Provider>

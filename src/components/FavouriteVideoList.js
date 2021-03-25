@@ -8,7 +8,6 @@ const useStyles = makeStyles({
   favouriteVideoListContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    //justifyContent: 'space-between',
     alignItems: 'stretch',
   },
 });
@@ -33,6 +32,5 @@ export const FavouriteVideoList = ({ handleVideoSelect }) => {
 };
 
 FavouriteVideoList.propTypes = {
-  //videos: PropTypes.array,
   handleVideoSelect: PropTypes.func
 };

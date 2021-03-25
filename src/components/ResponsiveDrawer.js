@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  logo: {
-    marginLeft: 20,
+    //padding: theme.spacing(3),
+    height: '100vh',
+    backgroundColor: '#000014',
+    color: '#DEE4E7',
   },
   toolbarColor: {
     backgroundColor: '#000014',
@@ -108,7 +108,7 @@ const ResponsiveDrawer = ({ window, history, children }) => {
           >
             <Menu />
           </IconButton>
-          <h1 className={ classes.logo }>REACTUBE</h1>
+          <h1>REACTUBE</h1>
         </Toolbar>
       </AppBar>
       <nav className={ classes.drawer } aria-label="Video folders">

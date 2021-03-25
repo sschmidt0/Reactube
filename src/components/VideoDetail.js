@@ -32,27 +32,13 @@ const useStyles = makeStyles({
 });
 
 export const VideoDetail = ({ handleVideoSelect }) => {
-  const { videos, selectedVideo, relatedVideos } = useContext(VideoContext);
+  const { videos, relatedVideos } = useContext(VideoContext);
   const video = videos[0];
   const classes = useStyles();
 
   return (
     <section className={ classes.videoDetailContainer }>
       <DetailSelectedVideo />
-      {/* { !selectedVideo && video && <article className={ classes.article }>
-          <div className={ classes.imageContainer }>
-            <img
-              src={ video.snippet.thumbnails.high.url }
-              alt={ video.snippet.description }
-              className={ classes.videoDetailImage }
-            />
-          </div>
-          <div className={ classes.videoInformation }>
-            <h2 className={ classes.videoTitle }>{ video.snippet.title }</h2>
-            <p>{ video.snippet.description }</p>
-          </div>
-        </article>
-      } */}
       <article>
         <VideoList title="Related Videos" videos={ relatedVideos } handleVideoSelect={ (e) => handleVideoSelect(video) } />
       </article>
@@ -61,6 +47,5 @@ export const VideoDetail = ({ handleVideoSelect }) => {
 };
 
 VideoDetail.propTypes = {
-  //selectedVideo: PropTypes.object,
-  //video: PropTypes.object
+  handleVideoSelect: PropTypes.func,
 };

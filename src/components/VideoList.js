@@ -1,25 +1,42 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { VideoItem } from './VideoItem';
 import PropTypes from 'prop-types';
+import { isFavourite } from '../utils/isFavourite';
 
 const useStyles = makeStyles({
   videoListContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    //justifyContent: 'space-between',
     alignItems: 'stretch',
+    margin: 0,
+    backgroundColor: '#000014',
+    color: '#DEE4E7',
   },
 });
 
 export const VideoList = ({ handleVideoSelect, videos, title, sliceVal }) => {
   const classes = useStyles();
+  let renderedVideos = [];
 
-  const renderedVideos = videos.slice(0, sliceVal).map((video, key) =>
-    <VideoItem
-      key={ key }
-      handleVideoSelect={ () => handleVideoSelect(video) }
-      video = { video }
-    />);
+  if (videos.length > sliceVal) {
+    renderedVideos = videos.slice(0, sliceVal).map((video, key) =>
+      <VideoItem
+        key={ key }
+        handleVideoSelect={ () => handleVideoSelect(video) }
+        video = { video }
+        isFavourite={ isFavourite }
+      />
+    );
+  } else if (videos.length > 0) {
+    renderedVideos = videos.map((video, key) =>
+     <VideoItem
+       key={ key }
+       handleVideoSelect={ () => handleVideoSelect(video) }
+       video = { video }
+       isFavourite={ isFavourite }
+     />
+    );
+  }
 
   return (
     <section>
@@ -32,6 +49,7 @@ export const VideoList = ({ handleVideoSelect, videos, title, sliceVal }) => {
 };
 
 VideoList.propTypes = {
-  //videos: PropTypes.array,
+  title: PropTypes.string,
+  videos: PropTypes.array,
   handleVideoSelect: PropTypes.func
 };

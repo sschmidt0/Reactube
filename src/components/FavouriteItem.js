@@ -1,8 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { VideoContext } from './VideoContext';
-import { useContext } from 'react';
+import Link from './styled/Link';
 
 const useStyles = makeStyles({
   favouriteGrid: {
@@ -37,36 +36,29 @@ const useStyles = makeStyles({
 });
 
 export const FavouriteItem = ({ handleVideoSelect, video }) => {
-  const { favouriteVideos } = useContext(VideoContext);
   const classes = useStyles();
-
-  const handleFavoriteVideo = (video) => {
-    const index = favouriteVideos.findIndex(el => el.id.VideoId === video.id.VideoId);
-    console.log('index: ', index);
-    console.log(favouriteVideos.length);
-    favouriteVideos.splice(index, 1);
-    console.log(favouriteVideos.length);
-    localStorage.setItem('favouriteVideos',JSON.stringify(favouriteVideos));
-  }
+  const path = `/videos/${video.id.videoId}`;
 
   return (
-    <div className={ classes.favouriteGrid }>
-      <div className={ classes.favouriteImageContainer }>
-        <img
-          alt={ video.snippet.title }
-          src={ video.snippet.thumbnails.medium.url }
-          title={ video.snippet.title }
-          className={ classes.favouriteImage }
-          handleVideoSelect={ () => handleVideoSelect(video) }
-        />
+    <Link to={ path }>
+      <div
+        className={ classes.favouriteGrid }
+        onClick={ (e) => handleVideoSelect(e.target) }
+      >
+
+        <div className={ classes.favouriteImageContainer }>
+          <img
+            alt={ video.snippet.title }
+            src={ video.snippet.thumbnails.medium.url }
+            title={ video.snippet.title }
+            className={ classes.favouriteImage }
+          />
+        </div>
+        <div className={ classes.favouriteIconContainer }>
+          <FavoriteIcon color="secondary" />
+        </div>
       </div>
-      <div className={ classes.favouriteIconContainer }>
-        <FavoriteIcon
-          color="secondary"
-          onClick={ (e) => handleFavoriteVideo(video) }
-        />
-      </div>
-    </div>
+    </Link>
   )
 };
 

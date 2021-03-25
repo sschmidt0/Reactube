@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Link from './styled/Link';
 import { VideoContext } from './VideoContext';
@@ -8,10 +7,17 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mater
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import moment from 'moment';
+import YouTube from 'react-youtube';
+
+// import Cookies from 'universal-cookie';
+// const cookies = new Cookies();
+// cookies.set('cross-site-cookie'=bar, SameSite=None, Secure);
+//Set-Cookie: flavor=choco; SameSite=None; Secure
+//document.cookie = "cross-site-cookie=bar, SameSite=None, Secure";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 210,
+    maxWidth: 250,
     marginRight: 20,
     marginBottom: 20,
   },
@@ -29,30 +35,46 @@ const useStyles = makeStyles({
   cardBottomText: {
     color: 'lightgrey',
     fontSize: 13,
+  },
+  ytVideo: {
+    width: 250,
+    height: 120,
+  },
+  ytContainer: {
+    backgroundColor: '#fff',
   }
 });
 
-export const VideoItem = ({ handleVideoSelect, video }) => {
-  const [favorite, setFavorite] = useState(false);
-  const { favouriteVideos, setFavouriteVideos } = useContext(VideoContext);
+export const VideoItem = ({ handleVideoSelect, video, isFavourite }) => {
   const classes = useStyles();
+  const favourite = isFavourite(video);
+  const { favouriteVideos, setFavouriteVideos } = useContext(VideoContext);
   const path = `/videos/${video.id.videoId}`;
+  const { historyVideos, setHistoryVideos } = useContext(VideoContext);
+  //const historyVideos = JSON.parse(localStorage.getItem('historyVideos'));
 
-  const handleFavoriteIcon = (e) => {
+  const handleFavoriteIconDelete = (e, video) => {
     e.preventDefault();
-    setFavorite(!favorite);
-  //   if (favorite) {
-  //     setFavouriteVideos([...favouriteVideos, video]);
-  // } else {
-  //   const index = favouriteVideos.findIndex(el => el.id.VideoId === video.id.VideoId);
-  //   console.log('index: ', index);
-  //   console.log(favouriteVideos.length);
-  //   favouriteVideos.splice(index, 1);
-  //   console.log(favouriteVideos.length);
-  // }
-  setFavouriteVideos([...favouriteVideos, video]);
-  localStorage.setItem('favouriteVideos', JSON.stringify(favouriteVideos));
+    const fv = favouriteVideos.filter(elem => elem.id.videoId !== video.id.videoId);
+    setFavouriteVideos(fv);
+    localStorage.setItem('favouriteVideos', JSON.stringify(fv));
+  }
+
+  const handleFavoriteIconAdd = (e) => {
+    e.preventDefault();
+    const fv = [...favouriteVideos, video];
+    setFavouriteVideos(fv);
+    localStorage.setItem('favouriteVideos', JSON.stringify(fv));
   };
+
+  const videoHistory = () => {
+    console.log('playing');
+    const hv = [...historyVideos, video];
+    console.log(hv);
+    setHistoryVideos(hv);
+    localStorage.setItem('historyVideos', JSON.stringify(hv));
+  };
+
 
   return (
     <Link to={ path }>
@@ -63,12 +85,16 @@ export const VideoItem = ({ handleVideoSelect, video }) => {
         <Card className={ classes.root }>
           <CardActionArea>
             <CardMedia
-              component="img"
               alt={ video.snippet.title }
-              image={ video.snippet.thumbnails.medium.url }
-              title={ video.snippet.title }
               className={ classes.cardImatge }
-            />
+            >
+              <YouTube
+                videoId={ video.id.videoId }
+                className={ classes.ytVideo }
+                containerClassName={ classes.ytContainer }
+                onPlay={ () => videoHistory() }
+              />
+            </CardMedia>
             <CardContent>
               <Typography gutterBottom variant="subtitle2" component="h3">
                 { video.snippet.title.substring(0, 20) + '...' }
@@ -78,9 +104,9 @@ export const VideoItem = ({ handleVideoSelect, video }) => {
                   { moment(video.snippet.publishedAt).fromNow() }
                 </Typography>
                 {
-                  favorite ?
-                  <FavoriteIcon color="secondary" onClick={ (e) => handleFavoriteIcon(e) } /> :
-                  <FavoriteBorderIcon color="secondary" onClick={ (e) => handleFavoriteIcon(e) } />
+                  favourite ?
+                  <FavoriteIcon color="secondary" onClick={ (e) => handleFavoriteIconDelete(e, video) } /> :
+                  <FavoriteBorderIcon color="secondary" onClick={ (e) => handleFavoriteIconAdd(e) } />
                 }
               </div>
             </CardContent>
@@ -92,6 +118,7 @@ export const VideoItem = ({ handleVideoSelect, video }) => {
 };
 
 VideoItem.propTypes = {
-  //video: PropTypes.object,
-  handleVideoSelect: PropTypes.func
+  isFavourite: PropTypes.func,
+  video: PropTypes.object,
+  handleVideoSelect: PropTypes.func,
 };

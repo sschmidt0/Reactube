@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 import { VideoContext } from './VideoContext';
 
 const useStyles = makeStyles((theme) => ({
+  navbarSearch: {
+    marginLeft: 15,
+    marginTop: 20,
+  },
   navBox: {
     backgroundColor: '#000014',
   },
@@ -16,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
-    marginLeft: 0,
+    marginLeft: '-24px !important',
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),

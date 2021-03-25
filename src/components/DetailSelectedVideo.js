@@ -10,14 +10,12 @@ const useStyles = makeStyles({
     display: 'flex',
     padding: 20,
     marginBottom: 80,
+    marginRight: 30,
     backgroundColor: '#DEE4E7',
     borderRadius: 5,
   },
   imageContainer: {
     width: '60%'
-  },
-  videoDetailImage: {
-    width: '100%',
   },
   videoInformation: {
     marginTop: -20,
@@ -31,15 +29,12 @@ const useStyles = makeStyles({
 export const DetailSelectedVideo = () => {
   const { selectedVideo } = useContext(VideoContext);
   const classes = useStyles();
+  const videoSrc = `https://www.youtube.com/embed/${selectedVideo.id.videoId}`;
 
   return (
     <article className={ classes.article }>
         <div className={ classes.imageContainer }>
-          <img
-            src={ selectedVideo.snippet.thumbnails.high.url }
-            alt={ selectedVideo.snippet.description }
-            className={ classes.videoDetailImage }
-          />
+          <iframe width="350" height="300" src={ videoSrc } title={ selectedVideo.snippet.title } frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
         </div>
         <div className={ classes.videoInformation }>
           <h2 className={ classes.videoTitle }>{ selectedVideo.snippet.title }</h2>

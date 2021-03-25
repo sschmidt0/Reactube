@@ -12,6 +12,11 @@ const useStyles = makeStyles({
     width: 460,
     marginBottom: 40,
   },
+  section: {
+    width: '100%',
+    backgroundColor: '#000014',
+    color: '#DEE4E7',
+  },
 });
 
 export const ComponentPrincipal = ({ handleVideoSelect, handleSubmit }) => {
@@ -21,7 +26,7 @@ export const ComponentPrincipal = ({ handleVideoSelect, handleSubmit }) => {
   return (
     <div>
       <SearchBar handleSubmit={ handleSubmit } />
-      <section>
+      <section className={ classes.section }>
         <VideoList
           title="Recommended Videos"
           handleVideoSelect={ handleVideoSelect }
