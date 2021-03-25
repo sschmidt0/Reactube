@@ -8,7 +8,8 @@ Este proyecto es el proyecto final del módulo React de la [ITAcademy](https://c
 ### Capturas de pantalla
 ***
 
-<img width="1440" alt="Captura de Pantalla 2021-03-23 a les 18 05 58" src="https://user-images.githubusercontent.com/47662713/112187481-6d822100-8c02-11eb-8136-db4246e592f0.png">
+<img width="1271" alt="captura sprint9" src="https://user-images.githubusercontent.com/47662713/112522732-452f2980-8d9e-11eb-9391-2a30d9a9bdb0.png">
+
 
 ### Instalación
 ***
