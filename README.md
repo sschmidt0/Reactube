@@ -6,6 +6,7 @@
 Este proyecto es el proyecto final del módulo React de la [ITAcademy](https://cibernarium.barcelonactiva.cat/web/guest/ficha-actividad?activityId=1053832) del Cibernàrium, Barcelona Activa en el cual tuvimos que crear una pequeña aplicación seguiendo el ejemplo de YouTube y utilizando la API de YouTube. Consiste en un dashboard en el cual se pueden ver un buscador de vídeos, un listado de vídeos recomendados, un historial de búsqueda de términos y los vídeos favoritos.  
 
 BRANCH dev: Nivel 1 del proyecto
+
 BRANCH nivell2: Nivel superior del proyecto
 
 ### Capturas de pantalla
