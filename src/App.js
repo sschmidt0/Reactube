@@ -44,7 +44,7 @@ export const App = () => {
       firstVideoImgSrc,
       searchTerm: termFromSearchBar,
       searchDate: Date.now(),
-      searchVideos: videos
+      searchVideos: response.data.items
     };
     console.log('searchHistoryItem: ', searchHistoryItem);
     setSearchHistory([...searchHistory, searchHistoryItem]);

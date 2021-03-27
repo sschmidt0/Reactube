@@ -37,8 +37,8 @@ export const HistoryListItem = ({ image, term, date, videos }) => {
   const { setVideos } = useContext(VideoContext);
   const classes = useStyles();
 
-  const handleClick = async () => {
-    await setVideos(videos);
+  const handleClick = () => {
+    setVideos(videos);
   };
 
   return (
